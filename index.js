@@ -187,6 +187,27 @@ app.delete("/movies/:id", async (req, res) => {
 });
 
 
+//UPDATAE:=>PUT
+
+app.put("/movies/:id", async (req, res) => {
+  //db.movies.findOne({id:"101"})
+
+  const { id } = req.params;
+  console.log(req.params, id);
+  const data=req.body;
+
+  // const movie = movies.find((e) => e.id === id);
+  const result = await client
+    .db("vaibhav")
+    .collection("movies")
+    .updateOne({ id: id },{$set: data});
+   
+    result.modifiedCount > 0
+   ? res.send({msg:"movie successfully updated"}) 
+   : res.status(404).send({ msg: "Movie not updated" });
+});
+
+
 
 
 app.listen(PORT, () => console.log(`App is started in ${PORT}`));
