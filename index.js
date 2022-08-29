@@ -7,7 +7,7 @@ const app = express();
 
 dotenv.config()
 console.log(process.env.MONGO_URL) //env=>env variables
-const PORT = 4000;
+const PORT = process.env.PORT;
 
 //const MONGO_URL ="mongodb://localhost"  // work in node 16 and before
 
