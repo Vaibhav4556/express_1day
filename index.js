@@ -3,6 +3,7 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv"
+import cors from 'cors'
 const app = express();
 
 dotenv.config()
@@ -24,6 +25,7 @@ async function createConnection() {
 const client = await createConnection(); // this client we can use in apis anywhere
 
 app.use(express.json()); // middlewear=>intercept--convert body to json
+app.use(cors())
 
 app.get("/", (req, res) => {
   res.send("hello world !!!!!!");
@@ -207,6 +209,50 @@ app.put("/movies/:id", async (req, res) => {
    : res.status(404).send({ msg: "Movie not updated" });
 });
 
+
+//MOBILES
+
+const mobiles = [
+  {
+    model: "OnePlus 9 5G",
+    img: "https://m.media-amazon.com/images/I/61fy+u9uqPL._SX679_.jpg",
+    company: "Oneplus"
+  },
+  {
+    model: "Iphone 13 mini",
+    img:
+      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-mini-blue-select-2021?wid=470&hei=556&fmt=jpeg&qlt=95&.v=1645572315986",
+    company: "Apple"
+  },
+  {
+    model: "Samsung s21 ultra",
+    img: "https://m.media-amazon.com/images/I/81kfA-GtWwL._SY606_.jpg",
+    company: "Samsung"
+  },
+  {
+    model: "Xiomi mi 11",
+    img: "https://m.media-amazon.com/images/I/51K4vNxMAhS._AC_SX522_.jpg",
+    company: "Xiomi"
+  }
+];
+//get mobiles is postman
+app.get("/mobiles", (req, res) => {
+  res.send(mobiles);
+});
+
+//create mobiles in postman 
+
+app.post("/mobiles", async (req, res) => {
+  //db.movies.find({})
+
+  const data = req.body;
+  const result = await client
+    .db("vaibhav")
+    .collection("mobiles")
+    .insertMany(data);
+
+  res.send(result);
+});
 
 
 
